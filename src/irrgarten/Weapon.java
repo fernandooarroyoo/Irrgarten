@@ -26,7 +26,7 @@ public class Weapon {
         }
     }
     
-    @Override //por qué NetBeans me ha puesto esto? 
+    @Override //por qué NetBeans me ha puesto esto? SIN ESTO ME DA ERROR
     public String toString(){
         return "W["+this.power+","+this.uses+"]";
     }
