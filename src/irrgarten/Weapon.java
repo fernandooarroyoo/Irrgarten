@@ -1,13 +1,6 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+
 package irrgarten;
 
-/**
- *
- * @author fernando
- */
 public class Weapon {
     private float power;
     private int uses;
@@ -27,7 +20,7 @@ public class Weapon {
         }
     }
     
-    @Override //por qué NetBeans me ha puesto esto? SIN ESTO ME DA ERROR
+    @Override 
     public String toString(){
         return "W["+this.power+","+this.uses+"]";
     }
