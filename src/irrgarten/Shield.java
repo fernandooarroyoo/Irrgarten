@@ -8,27 +8,28 @@ package irrgarten;
  *
  * @author fernando
  */
-public class Weapon {
-    private float power;
+public class Shield {
+    private float protection;
     private int uses;
     
-    public Weapon(float power, int uses){
-        this.power = power;
+    public Shield(float protection, int uses){
+        this.protection = protection;
         this.uses = uses;
     }
     
-    public float attack(){
-        if(this.uses > 0){
-            this.uses = this.uses -1;
-            return this.power;
+    public float protect(){
+        if (this.uses > 0){
+            this.uses = this.uses - 1;
+            return this.protection;
         }
         else{
             return 0;
         }
     }
     
-    @Override //por qué NetBeans me ha puesto esto? SIN ESTO ME DA ERROR
+    
+    @Override
     public String toString(){
-        return "W["+this.power+","+this.uses+"]";
+        return "S["+this.protection+","+this.uses+"]";
     }
 }
