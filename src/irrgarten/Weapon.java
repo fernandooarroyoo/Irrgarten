@@ -4,6 +4,7 @@ package irrgarten;
 public class Weapon {
     private float power;
     private int uses;
+    private Dice dice;
     
     public Weapon(float power, int uses){
         this.power = power;
@@ -18,6 +19,10 @@ public class Weapon {
         else{
             return 0;
         }
+    }
+    
+    public boolean discard(){
+        return dice.discardElement(this.uses);
     }
     
     @Override 

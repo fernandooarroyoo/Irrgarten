@@ -1,16 +1,11 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+
 package irrgarten;
 
-/**
- *
- * @author fernando
- */
+
 public class Shield {
     private float protection;
     private int uses;
+    private Dice dice;
     
     public Shield(float protection, int uses){
         this.protection = protection;
@@ -27,6 +22,9 @@ public class Shield {
         }
     }
     
+    public boolean discard(){
+        return dice.discardElement(this.uses);
+    }
     
     @Override
     public String toString(){
