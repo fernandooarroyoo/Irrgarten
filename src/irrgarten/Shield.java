@@ -5,7 +5,7 @@ package irrgarten;
 public class Shield {
     private float protection;
     private int uses;
-    private Dice dice;
+    //no hace falta crear un dado porque NO es un objeto
     
     public Shield(float protection, int uses){
         this.protection = protection;
@@ -23,7 +23,7 @@ public class Shield {
     }
     
     public boolean discard(){
-        return dice.discardElement(this.uses);
+        return Dice.discardElement(this.uses); //se llama directamente a la clase
     }
     
     @Override

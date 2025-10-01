@@ -4,11 +4,12 @@ package irrgarten;
 public class Weapon {
     private float power;
     private int uses;
-    private Dice dice;
+    static private int numWeapons=0;
     
     public Weapon(float power, int uses){
         this.power = power;
         this.uses = uses;
+        Weapon.numWeapons = Weapon.numWeapons + 1;
     }
     
     public float attack(){
@@ -22,7 +23,7 @@ public class Weapon {
     }
     
     public boolean discard(){
-        return dice.discardElement(this.uses);
+        return Dice.discardElement(this.uses);
     }
     
     @Override 
