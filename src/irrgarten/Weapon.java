@@ -4,12 +4,12 @@ package irrgarten;
 public class Weapon {
     private float power;
     private int uses;
-    static private int numWeapons=0;
+    //static private int numWeapons=0;
     
     public Weapon(float power, int uses){
         this.power = power;
         this.uses = uses;
-        Weapon.numWeapons = Weapon.numWeapons + 1;
+        //Weapon.numWeapons = Weapon.numWeapons + 1;
     }
     
     public float attack(){
