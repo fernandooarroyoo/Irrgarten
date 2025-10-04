@@ -7,7 +7,7 @@ public class Dice {
     //ATRIBUTOS PRIVADOS DE CLASE 
     
     
-    static private final int MAX_USES = 5;
+    static private final int MAX_USES = 5; //static es porque es de clase, final porque es constante
     static private final float MAX_INTELLIGENCE = 10f;
     static private final float MAX_STRENGTH = 10f;
     static private final float RESURRECT_PROB= 0.3f;
