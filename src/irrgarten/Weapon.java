@@ -12,6 +12,11 @@ public class Weapon {
         //Weapon.numWeapons = Weapon.numWeapons + 1;
     }
     
+    //constructor por defecto
+    public Weapon(){
+        this(Dice.randomStrength(),Dice.usesLeft());
+    }
+    
     public float attack(){
         if(this.uses > 0){
             this.uses = this.uses -1;
