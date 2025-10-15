@@ -1,11 +1,14 @@
 
 package irrgarten;
 
+import java.util.ArrayList;
+
 public class Player {
     static private final int MAX_WEAPONS = 2;
     static private final int MAX_SHIELDS = 3;
     static private final int INITIAL_HEALTH = 10;
     static private final int HITS2LOSE = 3;
+    static private final int INVALID_POSITION = -1;
     private String name;
     private char number;
     private float intelligence;
@@ -13,11 +16,35 @@ public class Player {
     private float health;
     private int row;
     private int col;
-    private int consecutiveHits = 0;
+    private int consecutiveHits;
+    
+    private ArrayList<Weapon> weapons; //esto son punteros que hay que inicializarlos
+    private ArrayList<Shield> shields;
+    
+    
     
     public Player(char number, float intelligence, float strength){
-        throw new UnsupportedOperationException();
+        
+        this.name = "Player #" + number;
+        this.number = number;
+        this.intelligence = intelligence;
+        this.strength = strength;
+        this.health = INITIAL_HEALTH;
+        this.row = INVALID_POSITION;
+        this.col = INVALID_POSITION;
+        this.consecutiveHits = 0;
+        
+        //atributos de relacion
+        this.weapons = new ArrayList<>();
+        this.shields = new ArrayList<>();
     }
+    
+    //EJERCICIO DE CLASE
+    /*public void takeWeapon(Weapon weapon){
+        weapon.setPlayer(this);
+        this.weapons.add(weapon);
+    }
+    */
     
     public void resurrect(){
         throw new UnsupportedOperationException();
@@ -80,7 +107,11 @@ public class Player {
     }
     
     private float sumWeapons(){
-        throw new UnsupportedOperationException();
+        float sum = 0;
+        for(Weapon weapon: this.weapons){
+            sum += weapon.attack();
+        }
+        return sum;
     }
     
     private float sumShields(){
