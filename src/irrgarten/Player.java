@@ -47,7 +47,10 @@ public class Player {
     */
     
     public void resurrect(){
-        throw new UnsupportedOperationException();
+        this.weapons.clear();
+        this.shields.clear();
+        this.health = INITIAL_HEALTH;
+        this.consecutiveHits = 0;
     }
     
     public int getRow(){
@@ -63,11 +66,16 @@ public class Player {
     }
     
     public void setPos(int row, int col){
-        throw new UnsupportedOperationException();
+        this.row = row;
+        this.col = col;
     }
     
     public boolean dead(){
-        throw new UnsupportedOperationException();
+        if (this.health <= 0){
+            return true;
+        }else{
+            return false;
+        }
     }
     
     public Directions move(Directions direction, Directions[] validMoves){
@@ -75,19 +83,31 @@ public class Player {
     }
     
     public float attack(){
-        throw new UnsupportedOperationException();
+        return this.sumWeapons() * this.strength;
     }
     
     public boolean defend(float receivedAttack){
-        throw new UnsupportedOperationException();
+        return this.manageHit(receivedAttack);
     }
     
     public void receiveReward(){
         throw new UnsupportedOperationException();
     }
     
+    @Override
     public String toString(){
-        throw new UnsupportedOperationException();
+        return "Player{"
+                + "name='" + name + '\''
+                + ", number=" + number
+                + ", intelligence=" + intelligence
+                + ", strength=" + strength
+                + ", health=" + health
+                + ", row=" + row
+                + ", col=" + col
+                + ", consecutiveHits=" + consecutiveHits
+                + ", weapons=" + weapons
+                + ", shields=" + shields
+                + '}';
     }
     
     private void receiveWeapon(Weapon w){

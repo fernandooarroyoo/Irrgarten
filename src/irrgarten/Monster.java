@@ -11,15 +11,27 @@ public class Monster {
     private int col;
     
     public Monster(String name, float intelligence, float strength){
-        throw new UnsupportedOperationException();
+        this.name = name;
+        this.intelligence = intelligence;
+        this.strength = strength;
+        
+        this.health = INITIAL_HEALTH;
+        row = -1;
+        col = -1;
+                
     }
     
     public boolean dead(){
-        throw new UnsupportedOperationException();
+        if (health <= 0){
+            return true;
+        }
+        else{
+            return false;
+        }
     }
     
     public float attack(){
-        throw new UnsupportedOperationException();
+        return Dice.intensity(strength);
     }
     
     public boolean defend(float receivedAttack){
@@ -27,15 +39,16 @@ public class Monster {
     }
     
     public void setPos(int row, int col){
-        throw new UnsupportedOperationException();
+        this.row = row;
+        this.col = col;
     }
     
     @Override
     public String toString(){
-        throw new UnsupportedOperationException();
+        return "Name : " + this.name + "\n \t intelligence: " + this.intelligence + "\n \t strength: " + this.strength + "\n \t health: " + this.health + "\n \t position: [" + this.row + "," + this.col + "]";
     }
     
     private void gotWounded(){
-        throw new UnsupportedOperationException();
+        this.health -= 1;
     }
 }
