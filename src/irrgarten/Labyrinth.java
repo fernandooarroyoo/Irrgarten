@@ -1,6 +1,8 @@
 
 package irrgarten;
 
+import java.util.ArrayList;
+
 public class Labyrinth {
     static private final char BLOCK_CHAR = 'X';
     static private final char EMPTY_CHAR = '-';
@@ -13,6 +15,11 @@ public class Labyrinth {
     private int nCols;
     private int exitRow;
     private int exitCol;
+    
+    //variables de relaciones
+    private ArrayList<MonsterSquare> monsters;
+    private LabyrinthSquare labyrinth[][]; //lo hago matriz para tener mejor rendimiento (hacer accesos directos)
+    private ArrayList<PlayerSquare> players;
     
     public Labyrinth(int nRows, int nCols, int exitRow, int exitCol){
         throw new UnsupportedOperationException();
