@@ -1,10 +1,17 @@
 
 package irrgarten;
 
+import java.util.ArrayList;
+
 public class Game {
     private static final int MAX_ROUNDS = 10;
     private int currentPlayerIndex;
     private String log;
+    //variables de relacion
+    private Player currentPlayer;
+    private ArrayList<Player> players;
+    private ArrayList<Monster>monsters;
+    private Labyrinth labyrinth;
     
     public Game(int nPLayers){
         throw new UnsupportedOperationException();
