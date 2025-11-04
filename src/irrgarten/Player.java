@@ -54,11 +54,11 @@ public class Player {
     }
     
     public int getRow(){
-        throw new UnsupportedOperationException();
+        return this.row;
     }
     
     public int getCol(){
-        throw new UnsupportedOperationException();
+        return this.col;
     }
     
     public char getNumber(){
@@ -135,7 +135,11 @@ public class Player {
     }
     
     private float sumShields(){
-        throw new UnsupportedOperationException();
+        float sum = 0;
+        for(Shield shield: this.shields){
+            sum += shield.protect();
+        }
+        return sum;
     }
     
     private float defensiveEnergy(){
