@@ -2,6 +2,7 @@
 package irrgarten;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class Player {
     static private final int MAX_WEAPONS = 2;
@@ -62,7 +63,7 @@ public class Player {
     }
     
     public char getNumber(){
-        throw new UnsupportedOperationException();
+        return this.number;
     }
     
     public void setPos(int row, int col){
@@ -78,9 +79,17 @@ public class Player {
         }
     }
     
-    public Directions move(Directions direction, Directions[] validMoves){
-        throw new UnsupportedOperationException();
+    public Directions move(Directions direction, ArrayList<Directions> validMoves){
+        int size = validMoves.size();
+        boolean contained = Arrays.asList(validMoves).contains(direction);
+        
+        if(size > 0 && !contained){
+            return validMoves.get(0);
+        }else{
+            return direction;
+        }
     }
+    
     
     public float attack(){
         return this.sumWeapons() * this.strength;
@@ -91,7 +100,18 @@ public class Player {
     }
     
     public void receiveReward(){
-        throw new UnsupportedOperationException();
+        int wReward = Dice.weaponsReward();
+        int sReward = Dice.shieldsReward();
+        
+        for(int i=0; i< wReward ; ++i){
+            Weapon w = newWeapon();
+            receiveWeapon(w);
+        }
+        
+        for(int i=0; i< sReward ; ++i){
+            Shield s = newShield();
+            receiveShield(s);
+        }
     }
     
     @Override
@@ -111,19 +131,37 @@ public class Player {
     }
     
     private void receiveWeapon(Weapon w){
-        throw new UnsupportedOperationException();
+         for (int i=weapons.size()-1; i>=0; i--){
+            boolean discard = weapons.get(i).discard();
+            if (discard)
+                weapons.remove(weapons.get(i));
+        }
+        
+        int size = weapons.size();
+        if (size<MAX_WEAPONS)
+            weapons.add(w);
     }
     
     private void receiveShield(Shield s){
-        throw new UnsupportedOperationException();
+         for (int i=shields.size()-1; i>=0; i--){
+            boolean discard = shields.get(i).discard();
+            if (discard){
+                shields.remove(shields.get(i));
+            }
+            
+            int size = shields.size();
+            if (size<MAX_SHIELDS){
+                shields.add(s);
+            }
+        }
     }
     
     private Weapon newWeapon(){
-        throw new UnsupportedOperationException();
+        return new Weapon(Dice.weaponPower(), Dice.usesLeft());
     }
     
     private Shield newShield(){
-        throw new UnsupportedOperationException();
+        return new Shield(Dice.shieldPower(), Dice.usesLeft());
     }
     
     private float sumWeapons(){
@@ -146,15 +184,31 @@ public class Player {
         throw new UnsupportedOperationException();
     }
     
-    private boolean manageHit(float receiveAttack){
-        throw new UnsupportedOperationException();
+    private boolean manageHit(float receivedAttack){
+        float defense = this.defensiveEnergy();
+        boolean lose;
+        if (defense < receivedAttack){
+            this.gotWounded();
+            this.incConsecutiveHits();
+        }
+        else 
+            this.consecutiveHits = 0;
+        
+        if ((consecutiveHits == HITS2LOSE) || (this.dead())){
+            this.consecutiveHits = 0;
+            lose = true;
+        }
+        else
+            lose = false;
+        
+        return lose;
     }
     
-    private void getWounded(){
-        throw new UnsupportedOperationException();
+    private void gotWounded(){
+        this.health -= 1;
     }
     
     private void incConsecutiveHits(){
-        throw new UnsupportedOperationException();
+        this.consecutiveHits += 1;
     }
 }
