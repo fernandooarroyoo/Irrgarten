@@ -2,29 +2,29 @@
 package irrgarten;
 
 import java.util.ArrayList;
+import irrgarten.Controller;
+import irrgarten.TextUI;
+
 
 public class Irrgarten {
     
     
     public static void main(String[] args) {
+    
+        
+    TextUI textui = new TextUI();
+    Game game = new Game(1);
+    Controller controller = new Controller (game, textui);
+    controller.play();
+    
+    
+    
+    
+    
+    
+   
        
-       /* 
-       Player player= new Player('0',1.2f,2.1f);
-       Weapon weapon = new Weapon(3f,5);
-       */
-       //player.takeWeapon(weapon);
-       
-       //Labyrinth lab = new Labyrinth(4,5,2,3);
-       ArrayList <Player> players = new ArrayList<Player>();
-       
-       Player fernando = new Player('1',1f,2f);
-       fernando.setPos(1,1);
-       
-       players.add(fernando);
-       
-       
-       Labyrinth lab = new Labyrinth(4,3,2,2);
-       int a = 1;
+      
     }
     
 }

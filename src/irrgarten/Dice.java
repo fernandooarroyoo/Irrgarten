@@ -2,6 +2,7 @@
 package irrgarten;
 
 import java.util.Random;
+import java.util.ArrayList;
 
 public class Dice {
     //ATRIBUTOS PRIVADOS DE CLASE 
@@ -82,6 +83,20 @@ public class Dice {
         else{
             return false;
         }
+    }
+    
+    static public Directions nextStep(Directions preference, ArrayList<Directions> validMoves, float intelligence){
+        float proporcion = intelligence/100;
+        float probabilidad = generator.nextFloat();
+        
+        if(probabilidad > proporcion){
+            return preference;
+        }else{
+            int indice = generator.nextInt(validMoves.size());
+            return validMoves.get(indice);
+        }
+        
+        
     }
    
     

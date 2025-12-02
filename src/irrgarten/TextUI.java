@@ -1,5 +1,5 @@
 
-package irrgarten.UI;
+package irrgarten;
 
 import irrgarten.Directions;
 import irrgarten.GameState;
@@ -50,7 +50,8 @@ public class TextUI {
         return direction;
     }
     
-    public void showGame(GameState gameState) {   
+    public void showGame(GameState gameState) {
+        System.out.println(gameState.labyrinth().toString() + "\n" + gameState.players() + "\n" + gameState.monsters() + "\n" + gameState.log() + "\n turno" + gameState.currentPlayer());
     }
     
 }

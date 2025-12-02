@@ -51,11 +51,12 @@ public class Labyrinth {
     public void spreadPlayers(ArrayList<Player> players){
         for(Player player:players){
             int[] pos = randomEmptyPos(); 
+            putPlayer2D(player.getRow(),player.getCol(),pos[0],pos[1],player);
         }
     }
     
     public boolean haveAWinner(){
-        if(this.players[this.exitCol][this.exitRow] != null){
+        if(this.players[this.exitRow][this.exitCol] != null){
             return true;
         }else{
             return false;
@@ -64,14 +65,16 @@ public class Labyrinth {
     
     @Override
     public String toString() {
-        return "Labyrinth{"
-                + "nrows='" + this.nRows + '\''
-                + ", nCols=" + this.nCols
-                + ", exitCol" + this.exitCol
-                + ", exitRow=" + this.exitRow
-                + ", labyrint=" + this.labyrinth.toString()
-                + ", player=" + this.players.toString()
-                + ", monsters=" + this.monsters.toString();
+        String laberinto = "";
+        
+        for(int i = 0 ; i<nRows;++i){
+            for(int j = 0; j< nCols; ++j){
+                laberinto += this.labyrinth[i][j] + " ";
+            }
+            laberinto += "\n";
+        }
+        
+        return laberinto;
     }
     
     public void addMonster(int row, int col, Monster monster){
@@ -132,8 +135,9 @@ public class Labyrinth {
         return output;
     }
     
+            
     private boolean posOk(int row, int col){
-        return(row<this.nRows-1 && col < nCols-1);
+        return(row<this.nRows && row>= 0 && col < nCols && col >= 0 );
     }
     
     private boolean emptyPos(int row, int col){
@@ -171,15 +175,19 @@ public class Labyrinth {
             case UP:
                 sol[0]=row-1;
                 sol[1]=col;
+                break;
             case DOWN:
                 sol[0]=row+1;
                 sol[1]=col;
+                break;
             case RIGHT:
                 sol[0]=row;
                 sol[1]=col+1;
+                break;
             case LEFT:
                 sol[0]=row;
                 sol[1]=col-1;
+                break;
         }
         return sol;
     }
@@ -196,7 +204,7 @@ public class Labyrinth {
         return newPos;
     }
     
-    private Monster putPlayer2D(int oldRow, int oldCol, int row, int col, Player player){
+    private Monster putPlayer2D(int oldRow , int oldCol, int row, int col, Player player){
         Monster output = null;
         
         if (canStepOn(row,col)){
@@ -206,21 +214,22 @@ public class Labyrinth {
                     updateOldPos(oldRow,oldCol);
                     this.players[oldRow][oldCol] = null;
                 }
+              }
+        
+        
+            boolean monsterPos = monsterPos(row,col);
+        
+            if(monsterPos){
+                this.labyrinth[row][col] = COMBAT_CHAR;
+                output = this.monsters[row][col];
+            }else{
+                char number = player.getNumber();
+                this.labyrinth[row][col] = number;
             }
+        
+            this.players[row][col] = player;
+            player.setPos(row,col);
         }
-        
-        boolean monsterPos = monsterPos(row,col);
-        
-        if(monsterPos){
-            this.labyrinth[row][col] = COMBAT_CHAR;
-            output = this.monsters[row][col];
-        }else{
-            char number = player.getNumber();
-            this.labyrinth[row][col] = number;
-        }
-        
-        this.players[row][col] = player;
-        player.setPos(row,col);
         
         return output;
         

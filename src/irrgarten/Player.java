@@ -4,40 +4,48 @@ package irrgarten;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-public class Player {
+public class Player extends LabyrinthCharacter {
     static private final int MAX_WEAPONS = 2;
     static private final int MAX_SHIELDS = 3;
     static private final int INITIAL_HEALTH = 10;
     static private final int HITS2LOSE = 3;
     static private final int INVALID_POSITION = -1;
-    private String name;
+  
     private char number;
-    private float intelligence;
-    private float strength;
-    private float health;
-    private int row;
-    private int col;
+    
     private int consecutiveHits;
     
     private ArrayList<Weapon> weapons; //esto son punteros que hay que inicializarlos
     private ArrayList<Shield> shields;
     
-    
+    private WeaponCardDeck weaponCardDeck;
+    private ShieldCardDeck shieldCardDeck;
     
     public Player(char number, float intelligence, float strength){
         
-        this.name = "Player #" + number;
+        super("Player",intelligence,strength,INITIAL_HEALTH);
         this.number = number;
-        this.intelligence = intelligence;
-        this.strength = strength;
-        this.health = INITIAL_HEALTH;
-        this.row = INVALID_POSITION;
-        this.col = INVALID_POSITION;
+        
         this.consecutiveHits = 0;
         
         //atributos de relacion
         this.weapons = new ArrayList<>();
         this.shields = new ArrayList<>();
+        
+        this.weaponCardDeck = new WeaponCardDeck();
+        this.weaponCardDeck.addCards();
+        this.shieldCardDeck = new ShieldCardDeck();
+        this.shieldCardDeck.addCards();
+    }
+    
+    public Player(Player other){
+        super(other);
+        this.number = other.number;
+        this.consecutiveHits = other.consecutiveHits;
+        this.weapons = other.weapons;
+        this.shields = other.shields;
+        this.weaponCardDeck = other.weaponCardDeck;
+        
     }
     
     //EJERCICIO DE CLASE
@@ -50,40 +58,26 @@ public class Player {
     public void resurrect(){
         this.weapons.clear();
         this.shields.clear();
-        this.health = INITIAL_HEALTH;
+        this.setHealth(INITIAL_HEALTH);
         this.consecutiveHits = 0;
+        /*
+        FuzzyPlayer FuzzyMe = new FuzzyPlayer(this);
+        Game.addPlayer(FuzzyMe);
+        */
     }
     
-    public int getRow(){
-        return this.row;
-    }
     
-    public int getCol(){
-        return this.col;
-    }
+    
     
     public char getNumber(){
         return this.number;
     }
-    
-    public void setPos(int row, int col){
-        this.row = row;
-        this.col = col;
-    }
-    
-    public boolean dead(){
-        if (this.health <= 0){
-            return true;
-        }else{
-            return false;
-        }
-    }
-    
+
     public Directions move(Directions direction, ArrayList<Directions> validMoves){
         int size = validMoves.size();
-        boolean contained = Arrays.asList(validMoves).contains(direction);
+        boolean contains = validMoves.contains(direction);
         
-        if(size > 0 && !contained){
+        if(size > 0 && !contains){
             return validMoves.get(0);
         }else{
             return direction;
@@ -92,7 +86,7 @@ public class Player {
     
     
     public float attack(){
-        return this.sumWeapons() * this.strength;
+        return this.sumWeapons() * this.getStrength();
     }
     
     public boolean defend(float receivedAttack){
@@ -117,13 +111,8 @@ public class Player {
     @Override
     public String toString(){
         return "Player{"
-                + "name='" + name + '\''
+                + super.toString()
                 + ", number=" + number
-                + ", intelligence=" + intelligence
-                + ", strength=" + strength
-                + ", health=" + health
-                + ", row=" + row
-                + ", col=" + col
                 + ", consecutiveHits=" + consecutiveHits
                 + ", weapons=" + weapons
                 + ", shields=" + shields
@@ -157,14 +146,16 @@ public class Player {
     }
     
     private Weapon newWeapon(){
-        return new Weapon(Dice.weaponPower(), Dice.usesLeft());
+        //return new Weapon(Dice.weaponPower(), Dice.usesLeft());
+        return this.weaponCardDeck.nextCard();
+        
     }
     
     private Shield newShield(){
         return new Shield(Dice.shieldPower(), Dice.usesLeft());
     }
     
-    private float sumWeapons(){
+    protected float sumWeapons(){
         float sum = 0;
         for(Weapon weapon: this.weapons){
             sum += weapon.attack();
@@ -172,16 +163,16 @@ public class Player {
         return sum;
     }
     
-    private float sumShields(){
+    protected float sumShields(){
         float sum = 0;
         for(Shield shield: this.shields){
-            sum += shield.protect();
+            sum += shield.defend();
         }
         return sum;
     }
     
-    private float defensiveEnergy(){
-        throw new UnsupportedOperationException();
+    protected float defensiveEnergy(){
+        return sumShields() + getIntelligence();
     }
     
     private boolean manageHit(float receivedAttack){
@@ -204,8 +195,8 @@ public class Player {
         return lose;
     }
     
-    private void gotWounded(){
-        this.health -= 1;
+    private void resetHits(){
+        this.consecutiveHits = 0;
     }
     
     private void incConsecutiveHits(){

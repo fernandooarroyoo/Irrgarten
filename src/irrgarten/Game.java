@@ -27,8 +27,12 @@ public class Game {
         this.currentPlayer = players.get(currentPlayerIndex);
         
         this.labyrinth = null;
+                
         this.configureLabyrinth();
         labyrinth.spreadPlayers(players);
+        this.monsters.add(new Monster("Pepe",1,1));
+        labyrinth.addMonster(1,1,monsters.get(0));
+        
     }
     
     public boolean finished(){
@@ -72,7 +76,7 @@ public class Game {
     }
     
     private void configureLabyrinth(){
-        this.labyrinth = new Labyrinth(10,10,5,5);
+        this.labyrinth = new Labyrinth(5,5,4,4);
     }
     
     private void nextPlayer(){
@@ -110,7 +114,7 @@ public class Game {
             if((!lose)){
                 playerAttack = this.currentPlayer.attack();
                 winner = GameCharacter.PLAYER;
-                lose = monster.defend(monsterAttack);
+                lose = monster.defend(playerAttack);
             }
         }
         this.logRounds(rounds, this.MAX_ROUNDS);
@@ -136,6 +140,8 @@ public class Game {
             this.logPlayerSkipTurn();
         }
     }
+    
+    
     
     private void logPlayerWon(){
         this.log +="El jugador ha ganado el combate\n";
